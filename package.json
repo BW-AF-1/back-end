@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
-    "test": "jest --watch"
+    "test": "cross-env DB_ENV=testing jest --watch"
   },
   "repository": "https://github.com/BW-AF-1/back-end.git",
   "license": "MIT",
