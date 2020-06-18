@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "jest": {
-  "testEnvironment": "node"
-},
+    "testEnvironment": "node"
+  },
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
@@ -13,6 +13,8 @@
   "repository": "https://github.com/BW-AF-1/back-end.git",
   "license": "MIT",
   "dependencies": {
+    "bcrpyt": "^2.0.0",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
