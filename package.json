@@ -1,0 +1,28 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "main": "index.js",
+  "jest": {
+  "testEnvironment": "node"
+},
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "test": "jest --watch"
+  },
+  "repository": "https://github.com/BW-AF-1/back-end.git",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "knex": "^0.21.1",
+    "nodemon": "^2.0.4",
+    "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "jest": "^26.0.1",
+    "supertest": "^4.0.2"
+  }
+}
