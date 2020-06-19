@@ -1,5 +1,9 @@
 # END POINTS
 
+Add ```https://buildweeknode.herokuapp.com/``` before endpoint 
+
+for example: ```https://buildweeknode.herokuapp.com/api/classes```
+
 ```bash
 
 /GET api/instructor
