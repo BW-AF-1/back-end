@@ -1,7 +1,10 @@
+const jwt = require('jsonwebtoken');
+const secrets = require('./config');
 
 module.exports = {
     dbError,
-    notFound
+    notFound,
+    generateToken
 }
 
 function dbError(res) {
@@ -10,4 +13,15 @@ function dbError(res) {
 
 function notFound(text, res) {
     return res.status(404).json({ message: `There are no ${text}`})
+}
+
+function generateToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username
+    }
+    const config = {
+        expiresIn: "1hr"
+    }
+    return jwt.sign(payload, secrets.jwtSecret, config)
 }
