@@ -8,7 +8,11 @@ const bcrypt = require('bcryptjs');
 module.exports = {
     getEndPoint,
     register,
-    login
+    login,
+    findUser,
+    deleteData,
+    editData,
+    getClassesByID,
 }
 
 async function getEndPoint(text, res) {
@@ -25,8 +29,8 @@ async function getEndPoint(text, res) {
 }
 
 async function register(text, res, req) {
-    const hashedPassword = await bcrypt.hashSync(req.body.password, 10)
-    req.body.password = hashedPassword;
+    const password = await helper.hashPassword(req)
+    req.body.password = password;
     try {
         await db.addData(text, req.body)
         res.status(201).send(req.body)
@@ -50,5 +54,59 @@ async function login(text, req, res) {
     } catch  {
         helper.dbError(res)
     }
-
 }
+async function findUser(text, req, res) {
+    const {id} = req.params
+    const user = await db.findByID(text, id)
+    console.log(user)
+    try {
+        if (user) {
+            res.status(200).send(user)
+        } else {
+            helper.notFound(text, res)
+        }
+    } catch  {
+        helper.dbError(res)
+    }
+}
+async function deleteData(text, req, res) {
+    const {id} = req.params
+    const user = await db.deleteByID(text, id)
+    try {
+        if (user) {
+            res.status(200).json({message: `User ID:${id} was deleted`})
+        } else {
+            helper.notFound(text, res)
+        }
+    } catch  {
+        helper.dbError(res)
+    }
+}
+async function editData(text, req, res) {
+    const { id } = req.params;
+    const password = await helper.hashPassword(req)
+    const user = await db.edit(text, id, req.body.username, password)
+    try {
+        if (user) {
+            res.status(200).json({ message: `Changed ID: ${id}`})
+        } else {
+            helper.notFound(text, res)
+        }
+    } catch  {
+        helper.dbError(res)
+    }
+}
+async function getClassesByID(text, req, res) {
+    const { id } = req.params;
+    const classes = await db.getIdClasses(text, id)
+    try {
+        if (classes) {
+            res.status(200).send(classes)
+        } else {
+            helper.notFound(text, res)
+        }
+    } catch  {
+        helper.dbError(res)
+    }
+}
+

@@ -26,8 +26,6 @@ exports.up = function (knex) {
         })
         .createTable('clients_classes', (tbl) => {
             tbl.integer('class_id').notNullable().unsigned().references('id').inTable('classes')
-                .onUpdate('CASCADE')
-                .onDelete('CASCADE')
             tbl.integer('client_id').notNullable().unsigned().references('id').inTable('clients')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE')

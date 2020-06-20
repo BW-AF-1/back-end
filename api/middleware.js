@@ -1,6 +1,9 @@
+const jwt = require('jsonwebtoken');
+const secrets = require('./config');
 
 module.exports = {
-    missingProp
+    missingProp,
+    restrictedRoute
 }
 
 function missingProp(req, res, next) {
@@ -11,5 +14,20 @@ function missingProp(req, res, next) {
     }
  else {
         next()
+    }
+}
+
+function restrictedRoute(req, res, next) {
+    const token = req.headers.autoriztion;
+    if (token) {
+        jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
+            if (err) {
+                return res.status(401).json({ message: "You are not authorized to enter" })
+            } else {
+                res.decodedToken = decodedToken;
+                console.log(decodedToken)
+                next();
+            }
+        })
     }
 }

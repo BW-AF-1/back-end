@@ -16,15 +16,32 @@ routes.post('/login', mw.missingProp, async (req, res) => {
 });
 
 //TODO: get individual instructors classes AND AUTHETICATE
-
-//TODO: DELETE INSTRUCTOR ID
-
-routes.delete('/:id', (req, res) => {
-    res.status(200).send('hello')
+routes.get('/:id', (req, res) => {
+    endPoint.findUser('instructors', req, res)
 })
 
-routes.put('/:id', (req, res) => {
-    res.status(200).send('hello')
+//get individual instructors classes AND AUTHETICATE
+routes.get('/:id/classes', (req, res) => {
+    endPoint.getClassesByID('instructors', req, res)
+})
+
+//TODO: INSTRUCTOR CAN POST CLASSES THAT THEY TEACH
+//TAKE OUT mw.missingProp and write classes middleware
+
+routes.post('/:id/classes', mw.missingProp, async (req, res) => {
+    endPoint.login('instructors', req, res)
+
+});
+
+//TODO: AUTHENTICATE
+
+routes.delete('/:id', (req, res) => { //ERROR WHEN ASSOCIATED WITH CLASS
+    endPoint.deleteData('instructors', req, res)
+})
+
+//TODO: AUTHENTICATE
+routes.put('/:id', mw.missingProp, (req, res) => {
+    endPoint.editData('instructors', req, res)
 })
 
 module.exports = routes;
