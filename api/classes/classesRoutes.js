@@ -6,6 +6,10 @@ const db = require('../dbModel');
 
 const helper = require('../helper');
 
+const endPoint = require('../endPoints');
+
+const mw = require('../middleware');
+
 routes.get('/', async(req, res) => {
     const classes = await db.getFromDB('classes')
     try {
@@ -19,16 +23,18 @@ routes.get('/', async(req, res) => {
     }
 })
 
-routes.post('/', (req, res) => {
-    res.status(201).send('hello')
+routes.get('/:id', (req, res) => {
+    endPoint.findUser('classes', req, res)
 })
 
+//TODO: AUTHENTICATE
 routes.delete('/:id', (req, res) => {
-    res.status(200).send('hello')
+    endPoint.deleteData('classes', req, res)
 })
 
-routes.put('/:id', (req, res) => {
-    res.status(200).send('hello')
+//TODO: AUTHENTICATE
+routes.put('/:id', mw.missingClassProps, (req, res) => {
+    endPoint.editData('classes', req, res)
 })
 
 module.exports = routes;

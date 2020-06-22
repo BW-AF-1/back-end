@@ -13,6 +13,7 @@ module.exports = {
     deleteData,
     editData,
     getClassesByID,
+    instructorsNewClasses
 }
 
 async function getEndPoint(text, res) {
@@ -58,7 +59,6 @@ async function login(text, req, res) {
 async function findUser(text, req, res) {
     const {id} = req.params
     const user = await db.findByID(text, id)
-    console.log(user)
     try {
         if (user) {
             res.status(200).send(user)
@@ -74,7 +74,7 @@ async function deleteData(text, req, res) {
     const user = await db.deleteByID(text, id)
     try {
         if (user) {
-            res.status(200).json({message: `User ID:${id} was deleted`})
+            res.status(200).json({message: `${id} was deleted`})
         } else {
             helper.notFound(text, res)
         }
@@ -82,26 +82,53 @@ async function deleteData(text, req, res) {
         helper.dbError(res)
     }
 }
-async function editData(text, req, res) {
+async function editData(text, req, res, name,) {
     const { id } = req.params;
-    const password = await helper.hashPassword(req)
-    const user = await db.edit(text, id, req.body.username, password)
-    try {
-        if (user) {
-            res.status(200).json({ message: `Changed ID: ${id}`})
-        } else {
-            helper.notFound(text, res)
+    if (text === 'instructors' || text === 'clients') {
+        const password = await helper.hashPassword(req)
+        let data = await db.edit(text, id, req.body.username, password)
+        try {
+            if (data) {
+                res.status(200).json({ message: `Changed ID: ${id}` })
+            } else {
+                helper.notFound(text, res)
+            }
+        } catch  {
+            helper.dbError(res)
         }
-    } catch  {
-        helper.dbError(res)
+    } else {
+        let data = await db.editClasses(id, req.body.name, req.body.type, req.body.startTime, req.body.duration, req.body.intensityLevel, req.body.location, req.body.attendees, req.body.maxClassSize)
+        try {
+            if (data) {
+                res.status(200).json({ message: `Changed ID: ${id}` })
+            } else {
+                helper.notFound(text, res)
+            }
+        } catch  {
+            helper.dbError(res)
+        }
     }
 }
+
 async function getClassesByID(text, req, res) {
     const { id } = req.params;
     const classes = await db.getIdClasses(text, id)
     try {
         if (classes) {
             res.status(200).send(classes)
+        } else {
+            helper.notFound(text, res)
+        }
+    } catch  {
+        helper.dbError(res)
+    }
+}
+async function instructorsNewClasses(text, req, res) {
+    const { id } = req.params;
+    const classes = await db.instructorPostClasses(req.body, id)
+    try {
+        if (classes) {
+            res.status(200).send(req.body)
         } else {
             helper.notFound(text, res)
         }
