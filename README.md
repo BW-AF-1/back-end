@@ -35,7 +35,7 @@ CLASES = {
 
 ```bash
 
-/GET api/instructor
+/GET api/instructors
     return instructors
 
 /POST api/instructors/register
