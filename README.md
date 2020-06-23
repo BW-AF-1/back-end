@@ -35,13 +35,13 @@ CLASES = {
 
 ```bash
 
-/GET api/instructor
+/GET api/instructors
     return instructors
 
 /POST api/instructors/register
     return the instructor that is added
 
-/POST api/instructors/signin
+/POST api/instructors/login
     return message string and token
 
 //GET api/instructors/id
@@ -67,7 +67,7 @@ CLASES = {
 /POST api/clients/register
     return the client that is added
 
-/POST api/clients/signin
+/POST api/clients/login
     return message string and token
 
 /GET api/clients/id
@@ -76,7 +76,7 @@ CLASES = {
 //GET api/clients/id/classes/
     return the classes by client ID
 
-//GET api/clients/id
+//DELETE api/clients/id
     return the client to be deleted
 
 //PUT api/clients/id
@@ -87,15 +87,14 @@ CLASES = {
 /GET api/classes
     return classes
 
-//GET api/classes
-    return all the classes
-
 //GET api/classes/id
     return id of the class being deleted
 
 //PUT api/classes/id
     return class object being updated
 
+//GET api/clients/id/classes/classID
+    return Class ID: classID successfully added
 ```
 
-TODO: AUTHETICATE AND MAKE api/clients/id/classes/classID - to assign classes to clients
+TODO: AUTHETICATE

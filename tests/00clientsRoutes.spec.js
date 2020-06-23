@@ -77,3 +77,32 @@ describe('GET /api/clients/id/classes', () => {
         expect(response.status).toBe(200)
     })
 })
+describe('GET api/clients/id/classes/classID', () => {
+    it('comes back with a 200 ok code to assign classes to clients', async () => {
+        await supertest(server).post('/api/clients/register').send({ id: 1, username: "test", password: "test" })
+        
+        const id = 1;
+        
+        await supertest(server).post(`/api/instructors/1/classes`).send({
+            id: 3,
+            name: " d",
+            type: " Buiddld",
+            startTime:"4 PM",
+            duration: "1 hr",
+            intensityLevel: "Hard",
+            location: "Ann Arbor, MI",
+            attendees: 12,
+            maxClassSize: 20,
+            instructor_id: 1
+        })
+        
+        const classID = 3
+        const response = await supertest(server).get(`/api/clients/${id}/classes/${classID}`)
+
+        expect(response.status).toBe(200)
+    })
+    beforeEach(async () => {
+        await db.clearDatabase('clients')
+    })
+
+})
