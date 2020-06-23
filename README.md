@@ -76,7 +76,7 @@ CLASES = {
 //GET api/clients/id/classes/
     return the classes by client ID
 
-//GET api/clients/id
+//DELETE api/clients/id
     return the client to be deleted
 
 //PUT api/clients/id
@@ -87,15 +87,14 @@ CLASES = {
 /GET api/classes
     return classes
 
-//GET api/classes
-    return all the classes
-
 //GET api/classes/id
     return id of the class being deleted
 
 //PUT api/classes/id
     return class object being updated
 
+//GET api/clients/id/classes/classID
+    return Class ID: classID successfully added
 ```
 
-TODO: AUTHETICATE AND MAKE api/clients/id/classes/classID - to assign classes to clients
+TODO: AUTHETICATE

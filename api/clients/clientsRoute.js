@@ -19,16 +19,16 @@ routes.post('/login', mw.missingProp, (req, res) => {
 routes.get('/:id', (req, res) => {
     endPoint.findUser('clients', req, res)
 })
-//get individual clients classes
 
+//get individual clients classes
 //TODO: AUTHETICATE
 routes.get('/:id/classes', (req, res) => {
     endPoint.getClassesByID('clients', req, res)
 })
-//TODO: POST A NEW CLASS TO THE CLIENT
+
 //CLIENT PICKS UP CLASSES THAT IS IN CLASSES DATABASE
-routes.get('/:id/classes/:classId', (req, res) => {
-    endPoint.getClassesByID('clients', req, res)
+routes.get('/:id/classes/:classID', (req, res) => {
+    endPoint.addClientClass(req, res)
 })
 
 //TODO: AUTHENTICATE

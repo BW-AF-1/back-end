@@ -10,7 +10,8 @@ module.exports = {
     edit,
     getIdClasses,
     instructorPostClasses,
-    editClasses
+    editClasses,
+    addClassToClient
 }
 
 //reusable get function to retreive data from all databases
@@ -45,10 +46,10 @@ function getIdClasses(text, id) {
             .where('c.instructor_id', id)
     } else {
         return db('clients as c')
-            .join("clients_classes as cc", 'c.id', 'cc.client_id')
-            .join("classes as cl", "cc.class_id", "c.id")
+            .join("clients_classes as cc", 'cc.client_id', 'c.id')
+            .join("classes as cl", "cc.class_id", "cl.id")
             .select('cl.name', 'cl.type', 'cl.startTime', 'cl.duration', 'cl.intensityLevel', 'cl.location', 'cl.attendees', 'cl.maxClassSize')
-            .where('c.id', id)
+            .where('cc.client_id', id)
     }
 }
 
@@ -70,6 +71,10 @@ function editClasses(id, name, type, startTime, duration, intensityLevel, locati
         maxClassSize
     })
     return data
+}
+
+function addClassToClient(id, clasID) {
+    return db('clients_classes').insert({'client_id': id, 'class_id': clasID})
 }
 
 function clearDatabase(text) {

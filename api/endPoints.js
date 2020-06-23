@@ -13,7 +13,8 @@ module.exports = {
     deleteData,
     editData,
     getClassesByID,
-    instructorsNewClasses
+    instructorsNewClasses,
+    addClientClass
 }
 
 async function getEndPoint(text, res) {
@@ -57,7 +58,7 @@ async function login(text, req, res) {
     }
 }
 async function findUser(text, req, res) {
-    const {id} = req.params
+    const { id } = req.params
     const user = await db.findByID(text, id)
     try {
         if (user) {
@@ -70,11 +71,11 @@ async function findUser(text, req, res) {
     }
 }
 async function deleteData(text, req, res) {
-    const {id} = req.params
+    const { id } = req.params
     const user = await db.deleteByID(text, id)
     try {
         if (user) {
-            res.status(200).json({message: `${id} was deleted`})
+            res.status(200).json({ message: `${id} was deleted` })
         } else {
             helper.notFound(text, res)
         }
@@ -82,7 +83,7 @@ async function deleteData(text, req, res) {
         helper.dbError(res)
     }
 }
-async function editData(text, req, res, name,) {
+async function editData(text, req, res, name, ) {
     const { id } = req.params;
     if (text === 'instructors' || text === 'clients') {
         const password = await helper.hashPassword(req)
@@ -129,6 +130,20 @@ async function instructorsNewClasses(text, req, res) {
     try {
         if (classes) {
             res.status(200).send(req.body)
+        } else {
+            helper.notFound(text, res)
+        }
+    } catch  {
+        helper.dbError(res)
+    }
+}
+async function addClientClass(req, res) {
+    const { id } = req.params;
+    const { classID } = req.params;
+    const classes = await db.addClassToClient(id, classID)
+    try {
+        if (classes) {
+            res.status(200).send({message: `Class ID: ${classID} successfully added`})
         } else {
             helper.notFound(text, res)
         }
