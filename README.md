@@ -41,7 +41,7 @@ CLASES = {
 /POST api/instructors/register
     return the instructor that is added
 
-/POST api/instructors/signin
+/POST api/instructors/login
     return message string and token
 
 //GET api/instructors/id
@@ -67,7 +67,7 @@ CLASES = {
 /POST api/clients/register
     return the client that is added
 
-/POST api/clients/signin
+/POST api/clients/login
     return message string and token
 
 /GET api/clients/id
