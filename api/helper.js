@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken');
 const secrets = require('./config');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
     dbError,
     notFound,
-    generateToken
+    generateToken,
+    hashPassword,
 }
 
 function dbError(res) {
@@ -13,6 +15,12 @@ function dbError(res) {
 
 function notFound(text, res) {
     return res.status(404).json({ message: `There are no ${text}`})
+}
+
+async function hashPassword(req) {
+    const hashedPassword = await bcrypt.hashSync(req.body.password, 10)
+    req.body.password = hashedPassword;
+    return req.body.password
 }
 
 function generateToken(user) {

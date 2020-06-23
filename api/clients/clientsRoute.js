@@ -14,20 +14,32 @@ routes.post('/login', mw.missingProp, (req, res) => {
     endPoint.login('clients', req, res)
 })
 
-//TODO: get individual CLIENTS classes AND AUTHETICATE
+//TODO: AUTHETICATE
 
+routes.get('/:id', (req, res) => {
+    endPoint.findUser('clients', req, res)
+})
+//get individual clients classes
+
+//TODO: AUTHETICATE
+routes.get('/:id/classes', (req, res) => {
+    endPoint.getClassesByID('clients', req, res)
+})
 //TODO: POST A NEW CLASS TO THE CLIENT
-
-//TODO: DELETE CLIENT ID
-
-routes.delete('/:id', (req, res) => {
-    res.status(200).send('hello')
+//CLIENT PICKS UP CLASSES THAT IS IN CLASSES DATABASE
+routes.get('/:id/classes/:classId', (req, res) => {
+    endPoint.getClassesByID('clients', req, res)
 })
 
-//TODO: UPDATE CLIENT ID
+//TODO: AUTHENTICATE
 
-routes.put('/:id', (req, res) => {
-    res.status(200).send('hello')
+routes.delete('/:id', (req, res) => {
+    endPoint.deleteData('clients', req, res)
+})
+//TODO: AUTHENTICATE
+
+routes.put('/:id', mw.missingProp, (req, res) => {
+    endPoint.editData('clients', req, res)
 })
 
 module.exports = routes;
