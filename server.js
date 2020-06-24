@@ -15,7 +15,7 @@ server.get('/', (req, res) => {
     res.status(200).send('The App is working');
 })
 
-server.use('/api/classes', mw.restrictedRoute, classesRoutes);
+server.use('/api/classes', classesRoutes);
 server.use('/api/clients', clientsRoutes);
 server.use('/api/instructors', instructorsRoutes);
 
