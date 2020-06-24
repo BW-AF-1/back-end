@@ -40,5 +40,7 @@ function restrictedRoute(req, res, next) {
                 next();
             }
         })
+    } else {
+        return res.status(401).json({ message: "You are not authorized to enter" })
     }
 }
