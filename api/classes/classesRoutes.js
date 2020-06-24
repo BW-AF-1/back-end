@@ -27,12 +27,10 @@ routes.get('/:id', (req, res) => {
     endPoint.findUser('classes', req, res)
 })
 
-//TODO: AUTHENTICATE
 routes.delete('/:id', (req, res) => {
     endPoint.deleteData('classes', req, res)
 })
 
-//TODO: AUTHENTICATE
 routes.put('/:id', mw.missingClassProps, (req, res) => {
     endPoint.editData('classes', req, res)
 })

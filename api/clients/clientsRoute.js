@@ -4,7 +4,7 @@ const routes = express.Router();
 const mw = require('../middleware');
 const endPoint = require('../endPoints');
 
-routes.get('/', (req, res) => {
+routes.get('/', mw.restrictedRoute, (req, res) => {
     endPoint.getEndPoint('clients', res)
 })
 routes.post('/register', mw.missingProp, (req, res) => {
@@ -14,31 +14,27 @@ routes.post('/login', mw.missingProp, (req, res) => {
     endPoint.login('clients', req, res)
 })
 
-//TODO: AUTHETICATE
 
-routes.get('/:id', (req, res) => {
+routes.get('/:id', mw.restrictedRoute, (req, res) => {
     endPoint.findUser('clients', req, res)
 })
 
 //get individual clients classes
-//TODO: AUTHETICATE
-routes.get('/:id/classes', (req, res) => {
+routes.get('/:id/classes', mw.restrictedRoute, (req, res) => {
     endPoint.getClassesByID('clients', req, res)
 })
 
 //CLIENT PICKS UP CLASSES THAT IS IN CLASSES DATABASE
-routes.get('/:id/classes/:classID', (req, res) => {
+routes.get('/:id/classes/:classID', mw.restrictedRoute, (req, res) => {
     endPoint.addClientClass(req, res)
 })
 
-//TODO: AUTHENTICATE
 
-routes.delete('/:id', (req, res) => {
+routes.delete('/:id', mw.restrictedRoute, (req, res) => {
     endPoint.deleteData('clients', req, res)
 })
-//TODO: AUTHENTICATE
 
-routes.put('/:id', mw.missingProp, (req, res) => {
+routes.put('/:id', mw.missingProp, mw.restrictedRoute, (req, res) => {
     endPoint.editData('clients', req, res)
 })
 
