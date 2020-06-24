@@ -29,14 +29,14 @@ function missingClassProps(req, res, next) {
 }
 
 function restrictedRoute(req, res, next) {
-    const token = req.headers.autoriztion;
+    const token = req.headers.authorization;
     if (token) {
         jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
             if (err) {
                 return res.status(401).json({ message: "You are not authorized to enter" })
             } else {
-                res.decodedToken = decodedToken;
-                console.log(decodedToken)
+                res.decodedToken = decodedToken
+                res.role = decodedToken.role;
                 next();
             }
         })

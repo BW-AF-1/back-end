@@ -4,7 +4,7 @@ const routes = express.Router();
 const mw = require('../middleware');
 const endPoint = require('../endPoints');
 
-routes.get('/', (req, res) => {
+routes.get('/', mw.restrictedRoute, (req, res) => {
     endPoint.getEndPoint('instructors', res)
 })
 routes.post('/register', mw.missingProp, async (req, res) => {
@@ -15,31 +15,29 @@ routes.post('/login', mw.missingProp, async (req, res) => {
 
 });
 
-//TODO: get individual instructors AND AUTHETICATE
-routes.get('/:id', (req, res) => {
+// get individual instructors AND AUTHETICATE
+routes.get('/:id',  mw.restrictedRoute, (req, res) => {
     endPoint.findUser('instructors', req, res)
 })
 
 //get individual instructors classes AND AUTHETICATE
-routes.get('/:id/classes', (req, res) => {
+routes.get('/:id/classes', mw.restrictedRoute, (req, res) => {
     endPoint.getClassesByID('instructors', req, res)
 })
 
 //INSTRUCTOR CAN POST CLASSES THAT THEY TEACH AUTHENTICATE
 
-routes.post('/:id/classes', mw.missingClassProps, async (req, res) => {
+routes.post('/:id/classes', mw.missingClassProps, mw.restrictedRoute, async (req, res) => {
     endPoint.instructorsNewClasses('classes', req, res)
 
 });
 
-//TODO: AUTHENTICATE
 
-routes.delete('/:id', (req, res) => { 
+routes.delete('/:id', mw.restrictedRoute, (req, res) => { 
     endPoint.deleteData('instructors', req, res)
 })
 
-//TODO: AUTHENTICATE
-routes.put('/:id', mw.missingProp, (req, res) => {
+routes.put('/:id', mw.missingProp, mw.restrictedRoute, (req, res) => {
     endPoint.editData('instructors', req, res)
 })
 

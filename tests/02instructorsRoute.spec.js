@@ -3,11 +3,11 @@ const supertest = require('supertest');
 const db = require('../api/dbModel');
 
 describe('GET /api/instructors', () => {
-    it('comes back with a 200 OK code', async () => {
+    it('comes back with a 401 OK code', async () => {
 
-        const response = await supertest(server).get('/api/instructors')
+        const response = await supertest(server).get('/api/instructors').set('Authorization', "jkkl")
 
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(401)
     })
 })
 describe('POST /api/instructors/register', () => {
@@ -35,39 +35,39 @@ describe('POST /login route', () => {
     })
 })
 describe('POST /api/instructors/id', () => {
-    it('comes back with a 200 created code', async () => {
+    it('comes back with a 401 created code', async () => {
 
         const id = 1;
 
-        const response = await supertest(server).get(`/api/instructors/${id}`)
+        const response = await supertest(server).get(`/api/instructors/${id}`).set('Authorization', "jkkl")
 
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(401)
     })
 })
 describe('DELETE /api/instructors/id', () => {
-    it('comes back with a 200 created code', async () => {
+    it('comes back with a 401 created code', async () => {
 
         const id = 1;
 
-        const response = await supertest(server).delete(`/api/instructors/${id}`)
+        const response = await supertest(server).delete(`/api/instructors/${id}`).set('Authorization', "jkkl")
 
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(401)
     })
 })
 describe('UPDATE /api/instructors/id', () => {
-    it('comes back with a 200 ok code', async () => {
+    it('comes back with a 401 ok code', async () => {
 
         await supertest(server).post('/api/instructors/register').send({ id: 1, username: "test", password: "test" })
 
         const id = 1;
 
-        const response = await supertest(server).put(`/api/instructors/${id}`).send({username: 'George', password: 'Smith'})
+        const response = await supertest(server).put(`/api/instructors/${id}`).send({ username: 'George', password: 'Smith' }).set('Authorization', "jkkl")
 
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(401)
     })
 })
 describe('GET /api/instructors/id/classes', () => {
-    it('comes back with a 200 ok code', async () => {
+    it('comes back with a 401 ok code', async () => {
 
         await supertest(server).post('/api/instructors/register').send({ id: 1, username: "test", password: "test" })
 
@@ -83,14 +83,14 @@ describe('GET /api/instructors/id/classes', () => {
             location: "Ann Arbor, MI",
             attendees: 12,
             maxClassSize: 20
-        })
+        }).set('Authorization', "jkkl")
 
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(401)
     })
 })
 //Instructors can post classes
 describe('POST /api/instructors/id/classes', () => {
-    it('comes back with a 200 ok code', async () => {
+    it('comes back with a 401 ok code', async () => {
 
         await supertest(server).post('/api/instructors/register').send({ id: 1, username: "test", password: "test" })
 
@@ -106,8 +106,8 @@ describe('POST /api/instructors/id/classes', () => {
             location: "Ann Arbor, MI",
             attendees: 12,
             maxClassSize: 20
-        })
+        }).set('Authorization', "jkkl")
 
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(401)
     })
 })

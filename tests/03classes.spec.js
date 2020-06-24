@@ -3,15 +3,15 @@ const supertest = require('supertest');
 const db = require('../api/dbModel')
 
 describe('GET /api/classes', () => {
-    it('comes back with a 200 OK code', async () => {
+    it('comes back with a 401 OK code', async () => {
 
-        const response = await supertest(server).get('/api/classes')
+        const response = await supertest(server).get('/api/classes').set('Authorization', "jkkl") 
 
-        expect(response.status).toBe(200)
+        expect(response.status).toBe(401)
     })
 })
 describe('GET /api/classes/id', () => {
-    it('comes back with a 200', async () => {
+    it('comes back with a 401', async () => {
         await supertest(server).post('/api/instructors/register').send({ id: 4, username: "test1", password: "test1" })
 
         let id = 4;
@@ -26,7 +26,7 @@ describe('GET /api/classes/id', () => {
             location: "Ann Arbor, MI",
             attendees: 12,
             maxClassSize: 20
-        })
+         }).set('Authorization', "jkkl") 
 
         id = 5
 
@@ -40,14 +40,14 @@ describe('GET /api/classes/id', () => {
             location: "Ann Arbor, MI",
             attendees: 12,
             maxClassSize: 20
-        })  
+        }).set('Authorization', "jkkl")  
 
-        expect(response1.status).toBe(200)
+        expect(response1.status).toBe(401)
     })
 })
 
 describe('PUT /api/classes/id', () => {
-    it('comes back with a 200', async () => {
+    it('comes back with a 401', async () => {
 
         let id = 5
  
@@ -61,18 +61,18 @@ describe('PUT /api/classes/id', () => {
             location: "Ann Arbor, MI",
             attendees: 12,
             maxClassSize: 20
-        }) 
+        }).set('Authorization', "jkkl") 
 
-        expect(response1.status).toBe(200)
+        expect(response1.status).toBe(401)
     })
 })
 describe('DELETE /api/classes/id', () => {
-    it('comes back with a 200 to confirm delete', async () => {
+    it('comes back with a 401 to confirm delete', async () => {
 
         let id = 5;
 
         const response1 = await supertest(server).delete(`/api/classes/${id}`)
-
-        expect(response1.status).toBe(200)
+            .set('Authorization', "jkkl")
+        expect(response1.status).toBe(401)
     })
 })

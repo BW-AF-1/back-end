@@ -23,10 +23,11 @@ async function hashPassword(req) {
     return req.body.password
 }
 
-function generateToken(user) {
+function generateToken(user, title) {
     const payload = {
         subject: user.id,
-        username: user.username
+        username: user.username,
+        role: title
     }
     const config = {
         expiresIn: "1hr"

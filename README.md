@@ -47,7 +47,7 @@ CLASES = {
 //GET api/instructors/id
     return the instructor of the id 
 
-//GET api/instructors/classes
+//GET api/instructors/id/classes
     return the classes the instructor has
 
 //POST api/instructors/id/classes
@@ -96,5 +96,3 @@ CLASES = {
 //GET api/clients/id/classes/classID
     return Class ID: classID successfully added
 ```
-
-TODO: AUTHETICATE
