@@ -3,68 +3,29 @@ const supertest = require('supertest');
 const db = require('../api/dbModel');
 
 //TODO: CLEAN UP TEST
-
-describe('GET /api/clients', () => {
-    it('comes back with a 401 OK code', async () => {
-
-        const response = await supertest(server).get('/api/clients').set('Authorization', "jkkl")
-
-        expect(response.status).toBe(401)
-    })
-})
-describe('POST /api/clients/register', () => {
-    it('comes back with a 201 created code', async () => {
-
-        const response = await supertest(server).post('/api/clients/register').send({ username: "Billy1", password: "cornflakes" })
-
-        expect(response.status).toBe(201)
-    })
-
-    beforeEach(async () => {
-        await db.clearDatabase('clients')
-    })
-})
-describe('POST /api/clients/:id', () => {
-    it('comes back with a 401 created code', async () => {
-
-        const id = 1;
-
-        const response = await supertest(server).get(`/api/clients/${id}`).set('Authorization', "jkkl")
-
-        expect(response.status).toBe(401)
-    })
-})
-describe('DELETE /api/clients/id', () => {
-    it('comes back with a 401 created code', async () => {
-
-        const id = 1;
-
-        const response = await supertest(server).delete(`/api/clients/${id}`).set('Authorization', "jkkl")
-
-        expect(response.status).toBe(401)
-    })
-})
-describe('UPDATE /api/clients/id', () => {
-    it('comes back with a 401 ok code', async () => {
-
-        await supertest(server).post('/api/clients/register').send({ id: 1, username: "test", password: "test" })
-
-        const id = 1;
-
-        const response = await supertest(server).put(`/api/clients/${id}`).send({ username: 'George', password: 'Smith' }).set('Authorization', "jkkl")
-
-        expect(response.status).toBe(401)
-    })
-})
-
-describe('GET /api/clients/id/classes', () => {
-    it('comes back with a 401 ok code', async () => {
-
-        await supertest(server).post('/api/clients/register').send({ id: 1, username: "test", password: "test" })
-
-        const id = 1;
-
-        const response = await supertest(server).get(`/api/clients/${id}/classes`).send({
+beforeAll((done) => {
+    supertest(server)
+        .post('/api/clients/register')
+        .send({
+            username: "bob",
+            password: "test",
+        })
+        .end((err, res, req) => {
+            done();
+        });
+    supertest(server)
+        .post('/api/clients/login')
+        .send({
+            username: "bob",
+            password: "test",
+        })
+        .end((err, res, req) => {
+            token = res.body.token; // save the token!
+            done();
+        })
+    supertest(server)
+        .post('/api/clients/1/classes')
+        .send({
             id: 1,
             name: "Get Ripped 404",
             type: "Pump Me Up",
@@ -74,37 +35,109 @@ describe('GET /api/clients/id/classes', () => {
             location: "Ann Arbor, MI",
             attendees: 12,
             maxClassSize: 20,
-        }).set('Authorization', "jkkl")
+            instructor_id: 1
+        })
+        .end((err, res, req) => {
+            token = res.body.token; // save the token!
+            done();
+        })
+});
 
-        expect(response.status).toBe(401)
+describe('GET /api/clients', () => {
+    it('comes back with a 200 OK code', async () => {
+
+        const response = await supertest(server).get('/api/clients')
+
+        expect(response.status).toBe(200)
+    })
+ })
+describe('POST /api/clients/register', () => {
+    it('comes back with a 201 created code', async () => {
+
+        const response = await supertest(server).post('/api/clients/register').send({ username: "Billy1", password: "cornflakes" })
+
+        expect(response.status).toBe(201)
+    })
+    beforeEach(async () => {
+        await db.clearDatabase('clients')
     })
 })
-describe('GET api/clients/id/classes/classID', () => {
-    it('comes back with a 401 ok code to assign classes to clients', async () => {
-        await supertest(server).post('/api/clients/register').send({ id: 1, username: "test", password: "test" })
+describe('GET /api/clients/:id', () => {
+    it('comes back with a 200 created code', async () => {
 
-        const id = 1;
-        
-        await supertest(server).post(`/api/instructors/1/classes`).send({
-            id: 3,
-            name: " d",
-            type: " Buiddld",
-            startTime:"4 PM",
+        const response = await supertest(server).get(`/api/clients/1`).set('Authorization', token)
+
+        expect(response.status).toBe(200)
+    })
+})
+describe('POST /api/clients/:id', () => {
+    it('comes back with a 200 created code', async () => {
+
+        const response = await supertest(server).get(`/api/clients/1`).set('Authorization', token)
+
+        expect(response.status).toBe(200)
+    })
+})
+
+describe('UPDATE /api/clients/id', () => {
+    it('comes back with a 200 ok code', async () => {
+
+        const response = await supertest(server).put(`/api/clients/1`).send({ username: 'George1', password: 'Smith1' }).set('Authorization', token)
+
+        expect(response.status).toBe(200)
+    })
+})
+
+describe('GET /api/clients/id/classes', () => {
+    it('comes back with a 200 ok code', async () => {
+
+        const response = await supertest(server).get(`/api/clients/1/classes`).send({
+            name: "Get Ripped 404",
+            type: "Pump Me Up",
+            startTime: "4 PM",
             duration: "1 hr",
             intensityLevel: "Hard",
             location: "Ann Arbor, MI",
             attendees: 12,
             maxClassSize: 20,
-            instructor_id: 1
-        }).set('Authorization', "jkkl")
-        
-        const classID = 3
-        const response = await supertest(server).get(`/api/clients/${id}/classes/${classID}`).set('Authorization', "jkkl")
+        }).set('Authorization', token)
 
-        expect(response.status).toBe(401)
+        expect(response.status).toBe(200)
     })
     beforeEach(async () => {
-        await db.clearDatabase('clients')
+        await db.clearDatabase('classes')
+    })
+})
+describe('GET api/clients/id/classes/classID', () => {
+    it('comes back with a 201 create code to assign classes to clients', async () => {
+
+        const data = await supertest(server).post(`/api/instructors/2/classes`).send({
+            name: " d",
+            type: " e",
+            startTime:"4 e",
+            duration: "1 hr",
+            intensityLevel: "Hard",
+            location: "Ann e, MI",
+            attendees: 12,
+            maxClassSize: 20,
+        }).set('Authorization', token)
+
+        const response = await supertest(server).get(`/api/clients/1/classes/1`).set('Authorization', token)
+
+        expect(response.status).toBe(200)
+    })
+    beforeEach(async () => {
+        await db.clearDatabase('classes')
     })
 
+})
+describe('DELETE /api/clients/id', () => {
+    it('comes back with a 200 for deleted', async () => {
+
+       await supertest(server).post('/api/clients/register').send({ id: 3,username: "test", password: "test" })
+
+        const response = await supertest(server).delete(`/api/clients/3`).set('Authorization', token)
+
+        expect(response.status).toBe(200)
+    })
 })

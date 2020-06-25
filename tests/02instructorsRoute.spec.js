@@ -22,7 +22,7 @@ beforeAll((done) => {
         .end((err, res, req) => {
             token = res.body.token; // save the token!
             done();
-        });
+        })
 });
 
 describe('GET /api/instructors', () => {
