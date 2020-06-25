@@ -27,11 +27,11 @@ routes.get('/:id', (req, res) => {
     endPoint.findUser('classes', req, res)
 })
 
-routes.delete('/:id', (req, res) => {
+routes.delete('/:id', mw.restrictedRoute, (req, res) => {
     endPoint.deleteData('classes', req, res)
 })
 
-routes.put('/:id', mw.missingClassProps, (req, res) => {
+routes.put('/:id', mw.restrictedRoute, mw.missingClassProps, (req, res) => {
     endPoint.editData('classes', req, res)
 })
 

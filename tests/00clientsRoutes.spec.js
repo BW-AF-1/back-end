@@ -2,6 +2,8 @@ const server = require("../server");
 const supertest = require('supertest');
 const db = require('../api/dbModel');
 
+//TODO: CLEAN UP TEST
+
 describe('GET /api/clients', () => {
     it('comes back with a 401 OK code', async () => {
 
