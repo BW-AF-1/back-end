@@ -4,7 +4,7 @@ const routes = express.Router();
 const mw = require('../middleware');
 const endPoint = require('../endPoints');
 
-routes.get('/', mw.restrictedRoute, (req, res) => {
+routes.get('/', (req, res) => {
     endPoint.getEndPoint('clients', res)
 })
 routes.post('/register', mw.missingProp, (req, res) => {
