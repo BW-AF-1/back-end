@@ -74,7 +74,7 @@ function editClasses(id, name, type, startTime, duration, intensityLevel, locati
 }
 
 function addClassToClient(id, clasID) {
-    return db('clients_classes').insert({'client_id': id, 'class_id': clasID}, 'id')
+    return db('clients_classes').insert({'client_id': id, 'class_id': clasID})
 }
 
 function clearDatabase(text) {
