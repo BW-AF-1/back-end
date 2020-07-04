@@ -3,9 +3,15 @@
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    client: 'postgresql',
     connection: {
-      filename: './data/dev.sqlite3'
+      database: 'Fitness',
+      user: 'postgres',
+      password: 'Sports12'
+    },
+    pool: {
+      min: 2,
+      max: 10
     },
     useNullAsDefault: true,
 
@@ -15,13 +21,6 @@ module.exports = {
     seeds: {
       directory: "./data/seeds"
     },
-    // needed when using foreign keys
-    pool: {
-      afterCreate: (conn, done) => {
-        // runs after a connection is made to the sqlite engine
-        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
-      }
-    }
   },
   testing: {
     client: 'sqlite3',
@@ -45,24 +44,17 @@ module.exports = {
     }
   },
   production: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: './data/dev.sqlite3'
+      connection: process.env.DATABASE_URL,
     },
-    useNullAsDefault: true,
-
     migrations: {
       directory: "./data/migrations"
     },
     seeds: {
       directory: "./data/seeds"
     },
-    // needed when using foreign keys
-    pool: {
-      afterCreate: (conn, done) => {
-        // runs after a connection is made to the sqlite engine
-        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
-      }
-    },
   },
 }
+
+

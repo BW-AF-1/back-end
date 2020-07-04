@@ -21,7 +21,7 @@ function getFromDB(dbName) {
 
 //POST data to the database
 function addData(text, object) {
-    return db(text).insert(object)
+    return db(text).insert(object, 'id')
 }
 
 function find(name, object) {
@@ -56,7 +56,7 @@ function getIdClasses(text, id) {
 //instructor can post classes that they teach
 function instructorPostClasses(object, id) {
     object.instructor_id = id
-    return db('classes').insert(object)
+    return db('classes').insert(object, 'id')
 }
 
 function editClasses(id, name, type, startTime, duration, intensityLevel, location, attendees, maxClassSize) {
@@ -74,7 +74,7 @@ function editClasses(id, name, type, startTime, duration, intensityLevel, locati
 }
 
 function addClassToClient(id, clasID) {
-    return db('clients_classes').insert({'client_id': id, 'class_id': clasID})
+    return db('clients_classes').insert({'client_id': id, 'class_id': clasID}, 'id')
 }
 
 function clearDatabase(text) {
