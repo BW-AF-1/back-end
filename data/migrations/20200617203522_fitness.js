@@ -2,17 +2,17 @@
 exports.up = function (knex) {
     return knex.schema.createTable('clients', (tbl) => {
         tbl.increments()
-        tbl.text('username').notNullable().unique()
+        tbl.text('username').notNullable()
         tbl.text('password').notNullable()
     })
         .createTable('instructors', (tbl) => {
             tbl.increments()
-            tbl.text('username').notNullable().unique()
+            tbl.text('username').notNullable()
             tbl.text('password').notNullable()
         })
         .createTable('classes', (tbl) => {
             tbl.increments()
-            tbl.text('name').notNullable().unique()
+            tbl.text('name').notNullable()
             tbl.text('type').notNullable()
             tbl.text('startTime').notNullable()
             tbl.text('duration').notNullable().unsigned()
