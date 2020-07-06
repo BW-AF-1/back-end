@@ -48,7 +48,7 @@ async function login(text, req, res) {
         if (user && bcrypt.compareSync(password, user.password)) {
             const title = text === 'clients' ? 'client' : 'instructor';
             const token = helper.generateToken(user, title)
-            res.status(200).json({ message: ` Welcome ${user.username} `, token })
+            res.status(200).json({ message: ` Welcome ${user.username} `, id: user.id, token })
         } else {
             res.status(404).json({ message: `${username}, could not be found` })
         }

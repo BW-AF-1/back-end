@@ -35,4 +35,6 @@ routes.put('/:id', mw.restrictedRoute, mw.missingClassProps, (req, res) => {
     endPoint.editData('classes', req, res)
 })
 
+
+
 module.exports = routes;
